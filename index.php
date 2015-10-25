@@ -19,6 +19,7 @@
     <div class="col-xs-4">
         <h4>CRITERIOS DE GEORREFERENCIACIÓN:</h4>
         <form>
+
             <div class="form-group" id="lista_prov">
                 <label class="col-sm-2 control-label" for="formgroup">Provincias:</label>
                 <select class="form-control" id="lista_provincias">
@@ -34,9 +35,10 @@
                   ?>
                 </select>
             </div>
+
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="formgroup">Municipios:</label>
-                <select class="form-control">
+                <select class="form-control" id="lista_municipios">
                     <option>Todos</option>
                     <?php
                   $result=mysql_query("SELECT * FROM Municipios");
@@ -49,46 +51,36 @@
                   ?>
                 </select>
             </div>
-            <div class="form-group multiple">
+            <div class="form-group" id="lista_redes">
                 <label class="col-sm-2 control-label" for="formgroup">Red:</label>
-                <select class="form-control">
-                    <option>Todas</option>
-                    <option>Opción 1</option>
-                    <option>Opción 2</option>
-                    <option>Opción 3</option>
-                    <option>Opción 4</option>
+                <select multiple class="form-control" id="lista_redes" size='8'>
+                    <?php
+                    $result=mysql_query("SELECT NombreRed FROM RedesTematicas");
+                    while ($row=mysql_fetch_array($result)) { ?>
+                          <option>
+                              <?php echo $row["NombreRed"]; ?>
+                          </option>
+                          <?php
+                    }
+                    ?>
                 </select>
             </div>
-            <div class="radio-inline">
-                <label>
-                    <input type="radio" name="optionsRadios" id="radio_estudianes" checked> Estudiantes
-                </label>
+            <div class="form-group">
+                <label for="formgroup">proyectos de:</label>
             </div>
-            <div class="radio-inline">
-                <label>
-                    <input type="radio" name="optionsRadios" id="radio_docentes"> Docentes
-                </label>
+            <div class="form-group">
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="radio_estudianes" checked> Estudiantes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="radio_docentes"> Docentes
+                    </label>
+                </div>
             </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Ambito 1
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Ambito 2
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Ambito 3
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Ambito 4
-                </label>
-            </div>
+
             <div class="form-group centro">
                 <button type="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-ok"></span> Filtrar</button>
                 <button type="button" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-remove"></span> Limpiar</button>

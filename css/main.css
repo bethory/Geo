@@ -3,20 +3,27 @@
     margin: 0 auto;
 }
 
+#lista_redes{
+    size;
+}
+
 html,
 body {
     height: 100%;
     margin: 0;
     padding: 0;
 }
-h4{
-	line-height: 2em;
+
+h4 {
+    line-height: 2em;
 }
+
 #map {
     height: 100%;
 }
-@media only screen and (device-width : 768px)  {
-	.btn{
-		width: 100%;
-	}
+
+@media only screen and (device-width: 768px) {
+    .btn {
+        width: 100%;
+    }
 }
