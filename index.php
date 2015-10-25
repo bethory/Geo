@@ -39,18 +39,9 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="formgroup">Municipios:</label>
                 <select class="form-control" id="lista_municipios">
-                    <option>Todos</option>
-                    <?php
-                  $result=mysql_query("SELECT * FROM Municipios");
-                  while ($row=mysql_fetch_array($result)) { ?>
-                        <option>
-                            <?php echo $row["Nombre"]; ?>
-                        </option>
-                        <?php
-                  }
-                  ?>
                 </select>
             </div>
+
             <div class="form-group" id="lista_redes">
                 <label class="col-sm-2 control-label" for="formgroup">Red:</label>
                 <select multiple class="form-control" id="lista_redes" size='8'>

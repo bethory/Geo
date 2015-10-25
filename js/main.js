@@ -44,11 +44,15 @@
      $("#lista_provincias").change(function(event) {
          var provincia = $("#lista_provincias").find(':selected').val();
          // console.log(provincia);
-         $.post('ajax/capture.php', {
-             provincia: provincia
-         }, function(data) {
-            console.log(data);
-         });
+         if (provincia!="Todas") {
+             $.post('ajax/capture.php', {
+                 provincia: provincia
+             }, function(data) {
+                $("#lista_municipios").html(data);
+             });
+         }else if(provincia=="Todas"){
+            console.log("Todas las provincias");
+         };
      });
  });
 
