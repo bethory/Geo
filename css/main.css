@@ -3,6 +3,11 @@
     margin: 0 auto;
 }
 
+.modal-content iframe{
+    margin: 0 auto;
+    display: block;
+}
+
 #lista_redes{
     size;
 }

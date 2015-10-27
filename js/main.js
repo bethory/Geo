@@ -44,38 +44,58 @@
      $("#lista_provincias").change(function(event) {
          var provincia = $("#lista_provincias").find(':selected').val();
          // console.log(provincia);
-         if (provincia!="Todas") {
+         if (provincia != "Todas") {
              $.post('ajax/capture.php', {
                  provincia: provincia
              }, function(data) {
-                $("#lista_municipios").html(data);
+                 $("#lista_municipios").html(data);
              });
-         }else if(provincia=="Todas"){
-            console.log("Todas las provincias");
+         } else if (provincia == "Todas") {
+             console.log("Todas las provincias");
          };
      });
  });
 
-/*
- //evento cuando se cambia de valor en la lista provincias
- $("#lista_provincias").change(function() {
-     //obtener el valor actual de la lista
-     var provincia = $('#lista_provincias').find(":selected").text();
-     // console.log(provincia);
-     $.post('ajax/capture.php', {
-         prueba: provincia
-     }, function(data) {
-     });
- });
-*/
+ /*
+  //evento cuando se cambia de valor en la lista provincias
+  $("#lista_provincias").change(function() {
+      //obtener el valor actual de la lista
+      var provincia = $('#lista_provincias').find(":selected").text();
+      // console.log(provincia);
+      $.post('ajax/capture.php', {
+          prueba: provincia
+      }, function(data) {
+      });
+  });
+ */
 
  //evento cuando se oprime el botón "filtrar"
  $('.btn-success').on('click', function() {
      event.preventDefault();
  });
 
+ $('.btn-info').on('click', function() {
+     event.preventDefault();
+ });
+
  $('.btn-danger').on('click', function() {
-    console.log("clear screen");
+     console.log("clear screen");
+ });
+
+ /* Get iframe src attribute value i.e. YouTube video url
+ and store it in a variable */
+ var url = $("#video").attr('src');
+
+ /* Assign empty url value to the iframe src attribute when
+ modal hide, which stop the video playing */
+ $("#modal_tuto").on('hide.bs.modal', function() {
+     $("#video").attr('src', '');
+ });
+
+ /* Assign the initially stored url back to the iframe src
+ attribute when modal is displayed again */
+ $("#modal_tuto").on('show.bs.modal', function() {
+     $("#video").attr('src', url);
  });
 
 
