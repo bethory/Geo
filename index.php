@@ -44,6 +44,15 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="formgroup">Municipios:</label>
                 <select class="form-control" id="lista_municipios">
+                      <?php
+                    $result=mysql_query("SELECT * FROM Municipios");
+                    while ($row=mysql_fetch_array($result)) { ?>
+                          <option>
+                              <?php echo $row["Nombre"]; ?>
+                          </option>
+                          <?php
+                    }
+                    ?>
                 </select>
             </div>
 
