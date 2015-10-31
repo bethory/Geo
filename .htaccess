@@ -47,5 +47,5 @@ Options -Indexes
   ModPagespeed Off
 </IfModule>
 
-ErrorDocument 403 /georreferenciacion/templates/403.php
-ErrorDocument 404 /georreferenciacion/templates/404.php
+ErrorDocument 403 /georreferenciacion/templates/403.html
+ErrorDocument 404 /georreferenciacion/templates/404.html
