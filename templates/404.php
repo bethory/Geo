@@ -9,7 +9,7 @@
 <body>
 	<div class="mensaje">
 		<p>Archivo no encontrado</p>
-		<img src="../img/noe.png">
+		<img src="img/noe.png">
 		<div class="volver">Regresar</div>
 	</div>
 </body>

@@ -9,7 +9,7 @@
 <body>
 	<div class="mensaje">
 		<p>Acceso Prohibido</p>
-		<img src="../img/nop.png">
+		<img src="img/nop.png">
 		<div class="volver">Regresar</div>
 	</div>
 </body>
