@@ -59,7 +59,7 @@ class location extends dbconfig {
       while($resultSet = mysqli_fetch_assoc($result)) {
         $res[] = $resultSet['NombreRed'];
       }
-      $data = array('status'=>'success', 'tp'=>1, 'msg'=>"Cities fetched successfully.", 'result'=>$res);
+      $data = array('status'=>'success', 'tp'=>1, 'msg'=>"redes", 'result'=>$res);
     } catch (Exception $e) {
       $data = array('status'=>'error', 'tp'=>0, 'msg'=>$e->getMessage());
     } finally {
