@@ -11,20 +11,21 @@ html {
 #map {
     width: 100%;
     height: 100vh;
-    background: #F0EDE5;
+    background: #EFEBDB; /*#E8DDBD #E9E5DC #F0EDE5*/
 }
 
 h4 {
-    padding-top: 32px;
+    padding-top: 36px;
 }
 
 .form-options {
     position: absolute;
+    box-shadow: 0 0 10px 0 gray;
     left: 0;
     top: 0;
     padding: 15px;
     background: white;
-    width: 450px;
+    width: 400px;
     /*520*/
     height: 100vh;
     box-sizing: border-box;
@@ -41,29 +42,6 @@ h4 {
 .ocultar {
     left: -480px;
     /*540*/
-}
-
-@media (max-width: 500px) {
-    .form-options {
-        position: absolute;
-        left: 0;
-        top: 0;
-        padding: 15px;
-        background: white;
-        width: 100%;
-        /*520*/
-        height: 100vh;
-        box-sizing: border-box;
-        -webkit-transition: all 0.5s;
-        transition: all 0.5s;
-    }
-    .ocultar {
-        left: -500px;
-        /*540*/
-    }
-    .centro button {
-        width: 100%;
-    }
 }
 
 .centro {
@@ -94,7 +72,61 @@ h4 {
 
 .claro {
     background-color: #FFF;
-    box-shadow: 0 0 10px 0 black;
+    box-shadow: 0 0 10px 0 gray;
+}
+
+.titu{
+    display: block;
+    position: fixed;
+    font-size: 15px;
+    color: #5d5d5d;
+    font-weight: 600;
+    left: 68px;
+    /*left: -20px;*/
+    top: 0px;
+    z-index: 900;
+    background: white;
+    padding: 20px;
+    opacity: 0;
+    cursor: default;
+    transition: all 0.5s;
+}
+
+.titclaro{
+    box-shadow: 0 0 1px 0 gray;
+    opacity: 1;
+    cursor: pointer;
+    /*left: 68px;*/
+}
+
+@media (max-width: 600px) {
+    .form-options {
+        position: absolute;
+        box-shadow: none;
+        left: 0;
+        top: 0;
+        padding: 15px;
+        background: white;
+        width: 100%;
+        /*520*/
+        height: 100vh;
+        box-sizing: border-box;
+        -webkit-transition: all 0.5s;
+        transition: all 0.5s;
+    }
+    .ocultar {
+        left: -500px;
+        /*540*/
+    }
+    .centro button {
+        width: 100%;
+    }
+    .titu{
+        font-size: 13px;
+    }
+    h4{
+        font-size: 14px;
+    }
 }
 
 label {
@@ -148,6 +180,10 @@ label {
     border: 1px solid transparent;
     border-radius: 4px;
     margin: 15px 5px;
+}
+
+.btinf{
+    margin: 0 0 23px 0;
 }
 
 .btn-success {
