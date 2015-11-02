@@ -39,7 +39,7 @@ AddType image/svg+xml svg svgz
 AddEncoding gzip svgz
 </IfModule>
 <IfModule mod_dir.c>
-DirectoryIndex index.php index.html
+DirectoryIndex index.html index.php
 </IfModule>
 AddDefaultCharset utf-8
 Options -Indexes
@@ -47,5 +47,5 @@ Options -Indexes
   ModPagespeed Off
 </IfModule>
 
-ErrorDocument 403 /georreferenciacion/templates/403.html
-ErrorDocument 404 /georreferenciacion/templates/404.html
+ErrorDocument 403 /212/georreferenciacion/templates/403.html
+ErrorDocument 404 /212/georreferenciacion/templates/404.html
