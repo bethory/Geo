@@ -14,7 +14,7 @@ class dbconfig {
   protected static function connect() {
     try {
       $link = mysqli_connect(self::$host, self::$username, self::$password, self::$dbname); 
-        $link->set_charset('utf8');    
+        $link->set_charset('utf8');//utf8 fix
         if(!$link) {
           throw new exception(mysqli_error($link));
         }
