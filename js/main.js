@@ -1,13 +1,21 @@
 var map;
 
+function initMapX(){
+    var cc = {
+        lat: 5.067291,
+        lng: -74.595361
+    };
+    console.warn(cc);
+}
+
 function initMap() {
-    var uluru = {
+    var cundinamarca = {
         lat: 5.067291,
         lng: -74.595361
     };
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
-        center: uluru
+        center: cundinamarca
     });
 
     var contentString = '<div id="content">' +
@@ -29,7 +37,7 @@ function initMap() {
     });
 
     var marker = new google.maps.Marker({
-        position: uluru,
+        position: cundinamarca,
         map: map,
         title: 'Uluru (Ayers Rock)'
     });
@@ -37,12 +45,6 @@ function initMap() {
         infowindow.open(map, marker);
     });
 }
-
-$('.menu').on('click', function(){
-    $('.form-options').toggleClass('ocultar');
-    $('.menu').toggleClass('claro');
-});
-
 
 function ajax() {
     this.send = function(data, url, method, success, type) {
@@ -67,6 +69,7 @@ function ajax() {
     }
 }
 
+var munLoc = [];
 function locationMap() {
 
     var rootUrl = "api.php";
@@ -93,21 +96,26 @@ function locationMap() {
             }
         });
     };
-
+//al filrtar llamar el dato de ubicacion
     this.getMunicipios = function(id) {
 
         $("#lista_municipios option:gt(0)").remove();
-        var url = rootUrl + '?type=getMunicipios';
+        var url = rootUrl + '?type=getMunicipios&proId=' + id;
         $('#lista_municipios').find("option:eq(0)").html("Cargando...");
         
         call.send(data, url, method, function(data) {
-            $('#lista_municipios').find("option:eq(0)").html("Municipios");
+            $('#lista_municipios').find("option:eq(0)").html("Selecione su municipio");
             if (data.tp == 1) {
-                $.each(data['result'], function(key, val) {
-                    var option = $('<option />');
-                    option.attr('value', key).text(val);
+                
+                for (i = 0; i < data['result'].length; i++) {
+                    var option = "<option class='opt"+i+"'>"+data['result'][i].split(",")[0]+"</option>";
                     $('#lista_municipios').append(option);
-                });
+
+                    munLoc.push(data['result'][i].split(",")[1]+","+data['result'][i].split(",")[2]);
+
+                }
+                console.info(munLoc);
+
                 $("#lista_municipios").prop("disabled", false);
             } else {
                 alert(data.msg);
@@ -115,13 +123,43 @@ function locationMap() {
         });
     };
 
-    this.getProvincias = function() {
+    this.getMunicipiosAll = function() {
 
+        $("#lista_municipios option:gt(0)").remove();
+        var url = rootUrl + '?type=getMunicipiosAll';
+        $('#lista_municipios').find("option:eq(0)").html("Cargando...");
+        
+        call.send(data, url, method, function(data) {
+            $('#lista_municipios').find("option:eq(0)").html("Selecione su municipio");
+            if (data.tp == 1) {
+                for (i = 0; i < data['result'].length; i++) {
+                    var option = "<option class='opt"+i+"'>"+data['result'][i].split(",")[0]+"</option>";
+                    $('#lista_municipios').append(option);
+                }
+                $("#lista_municipios").prop("disabled", false);
+            } else {
+                alert(data.msg);
+            }
+        });
+    };
+
+    this.getMunicipioLoc = function(id) {
+        var url = rootUrl + '?type=getMunicipios';
+        call.send(data, url, method, function(data) {
+            if (data.tp == 1) {
+                locat = data['result'][id].split(",")[1]+","+data['result'][id].split(",")[2];
+                console.warn(locat);
+            } else {
+                alert(data.msg);
+            }
+        });
+    };
+
+    this.getProvincias = function() {
         var url = rootUrl + '?type=getProvincias';
         $('#lista_provincias').find("option:eq(0)").html("Cargando...");
-
         call.send(data, url, method, function(data) {
-            $('#lista_provincias').find("option:eq(0)").html("Provincias");
+            $('#lista_provincias').find("option:eq(0)").html("Todas");
             console.log(data);
             if (data.tp == 1) {
                 $.each(data['result'], function(key, val) {
@@ -135,12 +173,103 @@ function locationMap() {
             }
         });
     };
-
 }
+
+function parseLoc() {
+
+    this.getLatLon = function(dmsString) {
+
+        dmsString = dmsString.trim();
+        var dmsRe = /([NSEW])?(-)?(\d+(?:\.\d+)?)[°º:d\s]?\s?(?:(\d+(?:\.\d+)?)[':]\s?(?:(\d{1,2}(?:\.\d+)?)(?:'')?)?)?\s?([NSEW])?/i;
+
+        var result = {};
+        var m1, m2, decDeg1, decDeg2, dmsString2;
+        m1 = dmsString.match(dmsRe);
+
+        if (!m1) throw 'not parse';
+
+        if (m1[1]) {
+            m1[6] = undefined;
+            dmsString2 = dmsString.substr(m1[0].length - 1).trim();
+        } else {
+            dmsString2 = dmsString.substr(m1[0].length).trim();
+        }
+
+        decDeg1 = decDegMatch(m1);
+        m2 = dmsString2.match(dmsRe);
+        decDeg2 = m2 ? decDegMatch(m2) : {};
+
+        if (typeof decDeg1.latLon === 'undefined') {
+            if (!isNaN(decDeg1.decDeg) && isNaN(decDeg2.decDeg)) {
+                return decDeg1.decDeg;
+            } else if (!isNaN(decDeg1.decDeg) && !isNaN(decDeg2.decDeg)) {
+                decDeg1.latLon = 'lat';
+                decDeg2.latLon = 'lon';
+            } else {
+                throw 'not parse';
+            }
+        }
+
+        if (typeof decDeg2.latLon === 'undefined') {
+            decDeg2.latLon = decDeg1.latLon === 'lat' ? 'lon' : 'lat';
+        }
+
+        result[decDeg1.latLon] = decDeg1.decDeg;
+        result[decDeg2.latLon] = decDeg2.decDeg;
+        return result;
+    };
+}
+
+function decDegMatch(m) {
+    console.log(m);
+    var signIndex = {
+        "-": -1,
+        "N": 1,
+        "S": -1,
+        "E": 1,
+        "W": -1
+    };
+    var latLonIndex = {
+        "N": "lat",
+        "S": "lat",
+        "E": "lon",
+        "W": "lon"
+    };
+    var degrees, minutes, seconds, sign, latLon;
+    var deg, min, sec;
+
+    sign = signIndex[m[2]] || signIndex[m[1]] || signIndex[m[6]] || 1;
+    degrees = Number(m[3]);
+    minutes = m[4] ? Number(m[4]) : 0;
+    seconds = m[5] ? Number(m[5]) : 0;
+    latLon = latLonIndex[m[1]] || latLonIndex[m[6]];
+
+    if (!inRange(degrees, 0, 180)) throw 'Degrees outrange';
+    if (!inRange(minutes, 0, 60)) throw 'Minutes outrange';
+    if (!inRange(seconds, 0, 60)) throw 'Seconds outrange';
+
+    console.info(deg + " " + min + " " + sec);
+
+    return {
+        decDeg: sign * (degrees + minutes / 60 + seconds / 3600),
+        latLon: latLon
+    };
+}
+
+function inRange(value, a, b) {
+    return value >= a && value <= b;
+}
+
+$('.menu, .titu').on('click', function(){
+    $('.form-options').toggleClass('ocultar');
+    $('.menu').toggleClass('claro');
+    $('.titu').toggleClass('titclaro');
+});
 
 $(function() {
     var loc = new locationMap();
     loc.getProvincias();
+    loc.getMunicipiosAll();
     loc.getRedes();
 
     $("#lista_provincias").on("change", function(ev) {
@@ -150,62 +279,16 @@ $(function() {
         } else {
             $("#lista_municipios option:gt(0)").remove();
         }
+        if($("#lista_provincias")[0].selectedIndex == 0){
+            loc.getMunicipiosAll();
+        }
     });
 
     $("#lista_municipios").on("change", function(ev) {
-        var mun = $(this).val();
-        if (mun != '') {
-            //loc.getRedes(mun);
-            //loc.getRedes();
-        } else {
-            //$("#lista_redes option:gt(0)").remove();
-        }
+        var munIndex = $("#lista_municipios")[0].selectedIndex;
+        console.info(munIndex);
+        var loc = new locationMap();
+        loc.getMunicipioLoc(munIndex);
+        //var no = $("#lista_municipios > option").length - 1;
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//evento inicial
-$(document).on("ready", function() {
-    $("#lista_provincias").change(function(event) {
-        var provincia = $("#lista_provincias").find(':selected').val();
-        // console.log(provincia);
-        $.post('ajax/capture.php', {
-            provincia: provincia
-        }, function(data) {
-            $("#lista_municipios").html(data);
-            // console.log(data);
-        });
-    });
-});
-
-//evento cuando se oprime el botón "filtrar"
-$('.btn-success').on('click', function() {
-    event.preventDefault();
-});
-
-$('.btn-info').on('click', function() {
-    event.preventDefault();
-});
-
-$('.btn-danger').on('click', function() {
-    console.log("clear screen");
-});
-
-
-
