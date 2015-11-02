@@ -1,0 +1,42 @@
+body,
+html {
+    font-size: 15px;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background: #eee;
+}
+
+* {
+    outline: none;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+p {
+    font-size: 24px;
+    padding: 12px;
+}
+
+img{
+    padding-bottom: 32px;
+}
+
+.mensaje {
+    width: 100%;
+}
+
+.volver {
+    width: 160px;
+    height: 60px;
+    background: steelblue;
+    margin: 0 auto;
+    padding: 20px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+.volver:hover{
+    background: #3C6F9A;
+}
