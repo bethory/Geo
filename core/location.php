@@ -3,11 +3,11 @@
 require_once("dbconfig.php");
 class location extends dbconfig {
    
-   public static $data;
+  public static $data;
 
-   function __construct() {
-     parent::__construct();
-   }
+  function __construct() {
+    parent::__construct();
+  }
  
   // Fetch
   public static function getProvincias() {
@@ -29,9 +29,28 @@ class location extends dbconfig {
     }
   }
 
-  public static function getMunicipios($countryId) {
+  public static function getMunicipiosAll() {
     try {
-      $query = "SELECT * FROM `Municipios` WHERE `Provincias_idProvincias`='" . $countryId . "'";
+      $query = "SELECT * FROM `Municipios`";
+      $result = dbconfig::run($query);
+      if(!$result) {
+        throw new exception("TXVuaWNpcGlvcw");
+      }
+      $res = array();
+      while($resultSet = mysqli_fetch_assoc($result)) {
+        $res[] = $resultSet['Nombre'] .','. $resultSet['Latitud'] .','. $resultSet['Longitud'];
+      }
+      $data = array('status'=>'success', 'tp'=>1, 'msg'=>"municipios", 'result'=>$res);
+    } catch (Exception $e) {
+      $data = array('status'=>'error', 'tp'=>0, 'msg'=>$e->getMessage());
+    } finally {
+      return $data;
+    }
+  }
+
+  public static function getMunicipios($proId) {
+    try {
+      $query = "SELECT * FROM `Municipios` WHERE `Provincias_idProvincias`='" . $proId . "'";
       $result = dbconfig::run($query);
       if(!$result) {
         throw new exception("TXVuaWNpcGlvcw");
