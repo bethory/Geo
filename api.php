@@ -13,6 +13,7 @@ try {
   if(!isset($_GET['type']) || empty($_GET['type'])) {
     throw new exception("c2luIHBhcmFtZXRyb3M");
   }
+  
   $type = $_GET['type'];
   if($type=='getProvincias') {
     $data = $loc->getProvincias();
@@ -23,9 +24,11 @@ try {
     $data = $loc->getMunicipios($proId);
   }
 
+  if($type=='getMunicipiosAll') {
+    $data = $loc->getMunicipiosAll();
+  }
+
   if($type=='getRedes') {
-    $munId = $_GET['munId'];
-    //$data = $loc->getCities($munId);
     $data = $loc->getRedes();
   }
 } catch (Exception $e) {
