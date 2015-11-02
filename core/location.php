@@ -2,24 +2,42 @@
 
 require_once("dbconfig.php");
 class location extends dbconfig {
-   
+
   public static $data;
 
   function __construct() {
     parent::__construct();
   }
- 
-  // Fetch
-  public static function getProvincias() {
+
+  public static function getCoordenadas($idMunicipio) {
     try {
-      $query = "SELECT * FROM Provincias";
+      $query = "SELECT * FROM Municipios WHERE `idMunicipios`='" . $idMunicipio . "'";
       $result = dbconfig::run($query);
       if(!$result) {
-        throw new exception("UHJvdmluY2lhcw");
+        throw new exception("c");
       }
       $res = array();
-        while($resultSet = mysqli_fetch_assoc($result)) {        
-        $res[] = $resultSet['Nombre'];
+        while($resultSet = mysqli_fetch_assoc($result)) {
+        $res[] = $resultSet['Latitud'] .','. $resultSet["Longitud"];
+      }
+      $data = array('status'=>'success', 'tp'=>1, 'msg'=>"Coordenadas", 'result'=>$res);
+    } catch (Exception $e) {
+      $data = array('status'=>'error', 'tp'=>0, 'msg'=>$e->getMessage());
+    } finally {
+      return $data;
+    }
+  }
+
+  public static function getProvincias() {
+    try {
+        $query = "SELECT Nombre,idProvincias FROM Provincias ORDER BY Nombre ASC";
+      $result = dbconfig::run($query);
+      if(!$result) {
+        throw new exception("p");
+      }
+      $res = array();
+        while($resultSet = mysqli_fetch_assoc($result)) {
+        $res[] = $resultSet['Nombre'] .','. $resultSet["idProvincias"];
       }
       $data = array('status'=>'success', 'tp'=>1, 'msg'=>"provincias", 'result'=>$res);
     } catch (Exception $e) {
@@ -31,14 +49,14 @@ class location extends dbconfig {
 
   public static function getMunicipiosAll() {
     try {
-      $query = "SELECT * FROM `Municipios`";
+      $query = "SELECT * FROM `Municipios` ORDER BY Nombre ASC";
       $result = dbconfig::run($query);
       if(!$result) {
-        throw new exception("TXVuaWNpcGlvcw");
+        throw new exception("m");
       }
       $res = array();
       while($resultSet = mysqli_fetch_assoc($result)) {
-        $res[] = $resultSet['Nombre'] .','. $resultSet['Latitud'] .','. $resultSet['Longitud'];
+        $res[] = $resultSet['Nombre'] .','. $resultSet['idMunicipios'];
       }
       $data = array('status'=>'success', 'tp'=>1, 'msg'=>"municipios", 'result'=>$res);
     } catch (Exception $e) {
@@ -50,14 +68,14 @@ class location extends dbconfig {
 
   public static function getMunicipios($proId) {
     try {
-      $query = "SELECT * FROM `Municipios` WHERE `Provincias_idProvincias`='" . $proId . "'";
+      $query = "SELECT * FROM `Municipios` WHERE `Provincias_idProvincias`='" . $proId . "' ORDER BY Nombre ASC";
       $result = dbconfig::run($query);
       if(!$result) {
-        throw new exception("TXVuaWNpcGlvcw");
+        throw new exception("m");
       }
       $res = array();
       while($resultSet = mysqli_fetch_assoc($result)) {
-        $res[] = $resultSet['Nombre'] .','. $resultSet['Latitud'] .','. $resultSet['Longitud'];
+        $res[] = $resultSet['Nombre'] .','. $resultSet['idMunicipios'];
       }
       $data = array('status'=>'success', 'tp'=>1, 'msg'=>"municipios", 'result'=>$res);
     } catch (Exception $e) {
@@ -69,10 +87,10 @@ class location extends dbconfig {
 
   public static function getRedes() {
     try {
-      $query = "SELECT NombreRed FROM RedesTematicas";
+      $query = "SELECT NombreRed FROM RedesTematicas ORDER BY NombreRed ASC";
       $result = dbconfig::run($query);
       if(!$result) {
-        throw new exception("ZXJyb3IgY2FyZ2FuZG8gcmVkZXM");
+        throw new exception("r");
       }
       $res = array();
       while($resultSet = mysqli_fetch_assoc($result)) {
@@ -84,5 +102,5 @@ class location extends dbconfig {
     } finally {
       return $data;
     }
-  }   
+  }
 }

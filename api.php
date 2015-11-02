@@ -1,23 +1,28 @@
 <?php
 
-error_reporting(E_ALL & ~E_NOTICE); 
+error_reporting(E_ALL & ~E_NOTICE);
 error_reporting(0);
 ob_start();
 header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
 include_once("core/location.php");
 
-$loc = new location();      
+$loc = new location();
 
 try {
   if(!isset($_GET['type']) || empty($_GET['type'])) {
-    throw new exception("c2luIHBhcmFtZXRyb3M");
+    throw new exception("g");
   }
-  
+
   $type = $_GET['type'];
+  if($type=='getCoordenadas') {
+    $idMunicipio = $_GET['idMunicipio'];
+    $data = $loc->getCoordenadas($idMunicipio);
+  }
+
   if($type=='getProvincias') {
     $data = $loc->getProvincias();
-  } 
+  }
 
   if($type=='getMunicipios') {
     $proId = $_GET['proId'];

@@ -1,11 +1,11 @@
 var map;
 
-function initMapX(){
+function initMapX() {
     var cc = {
         lat: 5.067291,
         lng: -74.595361
     };
-    console.warn(cc);
+    //console.warn(cc);
 }
 
 function initMap() {
@@ -13,6 +13,7 @@ function initMap() {
         lat: 5.067291,
         lng: -74.595361
     };
+
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: cundinamarca
@@ -70,6 +71,7 @@ function ajax() {
 }
 
 var munLoc = [];
+
 function locationMap() {
 
     var rootUrl = "api.php";
@@ -83,7 +85,7 @@ function locationMap() {
         $('#lista_redes').find("option:eq(0)").html("Cargando...");
 
         call.send(data, url, method, function(data) {
-            $('#lista_redes').find("option:eq(0)").html("Redes");
+            $('#lista_redes').find("option:eq(0)").html("Selecione la red principal");
             if (data.tp == 1) {
                 $.each(data['result'], function(key, val) {
                     var option = $('<option />');
@@ -96,26 +98,21 @@ function locationMap() {
             }
         });
     };
-//al filrtar llamar el dato de ubicacion
+    //al filrtar llamar el dato de ubicacion
     this.getMunicipios = function(id) {
 
         $("#lista_municipios option:gt(0)").remove();
         var url = rootUrl + '?type=getMunicipios&proId=' + id;
         $('#lista_municipios').find("option:eq(0)").html("Cargando...");
-        
+
         call.send(data, url, method, function(data) {
             $('#lista_municipios').find("option:eq(0)").html("Selecione su municipio");
             if (data.tp == 1) {
-                
+
                 for (i = 0; i < data['result'].length; i++) {
-                    var option = "<option class='opt"+i+"'>"+data['result'][i].split(",")[0]+"</option>";
+                    var option = "<option value='" + data['result'][i].split(",")[1] + "'>" + data['result'][i].split(",")[0] + "</option>";
                     $('#lista_municipios').append(option);
-
-                    munLoc.push(data['result'][i].split(",")[1]+","+data['result'][i].split(",")[2]);
-
                 }
-                console.info(munLoc);
-
                 $("#lista_municipios").prop("disabled", false);
             } else {
                 alert(data.msg);
@@ -128,12 +125,12 @@ function locationMap() {
         $("#lista_municipios option:gt(0)").remove();
         var url = rootUrl + '?type=getMunicipiosAll';
         $('#lista_municipios').find("option:eq(0)").html("Cargando...");
-        
+
         call.send(data, url, method, function(data) {
             $('#lista_municipios').find("option:eq(0)").html("Selecione su municipio");
             if (data.tp == 1) {
                 for (i = 0; i < data['result'].length; i++) {
-                    var option = "<option class='opt"+i+"'>"+data['result'][i].split(",")[0]+"</option>";
+                    var option = "<option value='" + data['result'][i].split(",")[1] + "'>" + data['result'][i].split(",")[0] + "</option>";
                     $('#lista_municipios').append(option);
                 }
                 $("#lista_municipios").prop("disabled", false);
@@ -144,10 +141,10 @@ function locationMap() {
     };
 
     this.getMunicipioLoc = function(id) {
-        var url = rootUrl + '?type=getMunicipios';
+        var url = rootUrl + '?type=getCoordenadas&idMunicipio=' + id;
         call.send(data, url, method, function(data) {
             if (data.tp == 1) {
-                locat = data['result'][id].split(",")[1]+","+data['result'][id].split(",")[2];
+                locat = data['result'];
                 console.warn(locat);
             } else {
                 alert(data.msg);
@@ -160,13 +157,11 @@ function locationMap() {
         $('#lista_provincias').find("option:eq(0)").html("Cargando...");
         call.send(data, url, method, function(data) {
             $('#lista_provincias').find("option:eq(0)").html("Todas");
-            console.log(data);
             if (data.tp == 1) {
-                $.each(data['result'], function(key, val) {
-                    var option = $('<option />');
-                    option.attr('value', key).text(val);
+                for (i = 0; i < data['result'].length; i++) {
+                    var option = "<option value='" + data['result'][i].split(",")[1] + "'>" + data['result'][i].split(",")[0] + "</option>";
                     $('#lista_provincias').append(option);
-                });
+                }
                 $("#lista_provincias").prop("disabled", false);
             } else {
                 alert(data.msg);
@@ -260,7 +255,7 @@ function inRange(value, a, b) {
     return value >= a && value <= b;
 }
 
-$('.menu, .titu').on('click', function(){
+$('.menu, .titu').on('click', function() {
     $('.form-options').toggleClass('ocultar');
     $('.menu').toggleClass('claro');
     $('.titu').toggleClass('titclaro');
@@ -271,24 +266,41 @@ $(function() {
     loc.getProvincias();
     loc.getMunicipiosAll();
     loc.getRedes();
+    var pro = '';
+    $("#filter").prop("disabled", true);
+
 
     $("#lista_provincias").on("change", function(ev) {
-        var pro = $(this).val();
+        pro = $(this).val();
         if (pro != '') {
             loc.getMunicipios(pro);
         } else {
             $("#lista_municipios option:gt(0)").remove();
         }
-        if($("#lista_provincias")[0].selectedIndex == 0){
+        if ($("#lista_provincias")[0].selectedIndex == 0) {
             loc.getMunicipiosAll();
         }
     });
 
     $("#lista_municipios").on("change", function(ev) {
-        var munIndex = $("#lista_municipios")[0].selectedIndex;
-        console.info(munIndex);
-        var loc = new locationMap();
-        loc.getMunicipioLoc(munIndex);
-        //var no = $("#lista_municipios > option").length - 1;
+        if ($("#lista_municipios")[0].selectedIndex == 0) {
+            $("#filter").prop("disabled", true);
+        } else {
+            $("#filter").prop("disabled", false);
+        }
+    });
+
+    $("#filter").on("click", function() {
+        idMunicipio = $("#lista_municipios").val();
+        loc.getMunicipioLoc(idMunicipio);
+    });
+
+    $("#clean").on("click", function() {
+        $("#lista_provincias option:gt(0)").remove();
+        loc.getProvincias();
+        $("#lista_municipios option:gt(0)").remove();
+        loc.getMunicipiosAll();
+        $("#lista_redes option:gt(0)").remove();
+        loc.getRedes();
     });
 });

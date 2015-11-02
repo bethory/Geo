@@ -11,7 +11,8 @@ html {
 #map {
     width: 100%;
     height: 100vh;
-    background: #EFEBDB; /*#E8DDBD #E9E5DC #F0EDE5*/
+    background: #EFEBDB;
+    /*#E8DDBD #E9E5DC #F0EDE5*/
 }
 
 h4 {
@@ -26,7 +27,6 @@ h4 {
     padding: 15px;
     background: white;
     width: 400px;
-    /*520*/
     height: 100vh;
     box-sizing: border-box;
     -webkit-transition: all 0.5s;
@@ -34,14 +34,12 @@ h4 {
     overflow: auto;
 }
 
-
 .btf {
     width: 85px;
 }
 
 .ocultar {
-    left: -480px;
-    /*540*/
+    left: -420px;
 }
 
 .centro {
@@ -75,7 +73,7 @@ h4 {
     box-shadow: 0 0 10px 0 gray;
 }
 
-.titu{
+.titu {
     display: block;
     position: fixed;
     font-size: 15px;
@@ -92,7 +90,7 @@ h4 {
     transition: all 0.5s;
 }
 
-.titclaro{
+.titclaro {
     box-shadow: 0 0 1px 0 gray;
     opacity: 1;
     cursor: pointer;
@@ -115,16 +113,15 @@ h4 {
         transition: all 0.5s;
     }
     .ocultar {
-        left: -500px;
-        /*540*/
+        left: -620px;
     }
     .centro button {
         width: 100%;
     }
-    .titu{
+    .titu {
         font-size: 13px;
     }
-    h4{
+    h4 {
         font-size: 14px;
     }
 }
@@ -182,7 +179,7 @@ label {
     margin: 15px 5px;
 }
 
-.btinf{
+.btinf {
     margin: 0 0 23px 0;
 }
 
