@@ -3,14 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="../css/info.css">
+        <style type="text/css">
+    body,
+    html {
+        font-size: 15px;
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background: #eee;
+    }
+    
+    * {
+        outline: none;
+        box-sizing: border-box;
+        text-align: center;
+    }
+    
+    p {
+        font-size: 24px;
+        padding: 12px;
+    }
+    
+    img {
+        padding-bottom: 32px;
+    }
+    
+    .mensaje {
+        width: 100%;
+    }
+    
+    .volver {
+        width: 160px;
+        height: 60px;
+        background: steelblue;
+        margin: 0 auto;
+        padding: 20px;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+    }
+    
+    .volver:hover {
+        background: #3C6F9A;
+    }
+    </style>
     <title>error</title>
 </head>
 <body>
 	<div class="mensaje">
-		<p>Acceso Prohibido</p>
-		<img src="../img/nop.png">
-		<div class="volver" onclick="history.go(-1)>Regresar</div>
+		<p>Acceso Denegado</p>
+		<img src="http://diegoquiroga.com/212/georreferenciacion/img/nop.png">
+		<div class="volver" onclick="history.go(-1)">Regresar</div>
 	</div>
 </body>
 </html>

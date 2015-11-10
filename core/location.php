@@ -28,6 +28,25 @@ class location extends dbconfig {
     }
   }
 
+  public static function getInstituciones($municipio) {
+    try {
+      $query = "SELECT Sede,idInstitucionesEducativas FROM InstitucionesEducativas WHERE `Municipios_idMunicipios`='" . $municipio . "' ORDER BY Sede ASC";
+      $result = dbconfig::run($query);
+      if(!$result) {
+        throw new exception("c");
+      }
+      $res = array();
+        while($resultSet = mysqli_fetch_assoc($result)) {
+        $res[] = $resultSet['Sede'].','. $resultSet["idInstitucionesEducativas"];
+      }
+      $data = array('status'=>'success', 'tp'=>1, 'msg'=>"Sedes", 'result'=>$res);
+    } catch (Exception $e) {
+      $data = array('status'=>'error', 'tp'=>0, 'msg'=>$e->getMessage());
+    } finally {
+      return $data;
+    }
+  }
+
   public static function getProvincias() {
     try {
         $query = "SELECT Nombre,idProvincias FROM Provincias ORDER BY Nombre ASC";

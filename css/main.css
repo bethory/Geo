@@ -62,7 +62,6 @@ h4 {
     background-position: 16px 12px;
     height: 24px;
     width: 24px;
-    /*opacity: .62;*/
     transition: background 0.5s;
     transition: box-shadow 0.5s;
     box-shadow: 0 0 0px 0 black;
@@ -80,7 +79,6 @@ h4 {
     color: #5d5d5d;
     font-weight: 600;
     left: 68px;
-    /*left: -20px;*/
     top: 0px;
     z-index: 900;
     background: white;
@@ -94,7 +92,6 @@ h4 {
     box-shadow: 0 0 1px 0 gray;
     opacity: 1;
     cursor: pointer;
-    /*left: 68px;*/
 }
 
 @media (max-width: 600px) {
@@ -106,7 +103,6 @@ h4 {
         padding: 15px;
         background: white;
         width: 100%;
-        /*520*/
         height: 100vh;
         box-sizing: border-box;
         -webkit-transition: all 0.5s;
@@ -217,7 +213,6 @@ label {
 .btn-group-lg>.btn {
     padding: 8px 0;
     font-size: 16px;
-    /*line-height: 1.33;*/
 }
 
 .radio-inline,
@@ -236,4 +231,8 @@ label {
 
 .gm-style-mtc {
     display: none !important;
+}
+
+#div_red2,#div_red3,#div_red4,#div_red5{
+    display: none;
 }

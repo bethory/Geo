@@ -20,8 +20,9 @@ try {
     $data = $loc->getCoordenadas($idMunicipio);
   }
 
-  if($type=='getProvincias') {
-    $data = $loc->getProvincias();
+  if($type=='getInstituciones') {
+    $municipio = $_GET['municipio'];
+    $data = $loc->getInstituciones($municipio);
   }
 
   if($type=='getMunicipios') {
@@ -31,6 +32,10 @@ try {
 
   if($type=='getMunicipiosAll') {
     $data = $loc->getMunicipiosAll();
+  }
+  
+  if($type=='getProvincias') {
+    $data = $loc->getProvincias();
   }
 
   if($type=='getRedes') {
