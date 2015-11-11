@@ -1,9 +1,9 @@
 <?php
 
 class dbconfig {
-  protected static $host = "localhost";
-  protected static $username = "root";
-  protected static $password = "";
+  protected static $host = "diegoquiroga.com";
+  protected static $username = "diegoqui_usuario";
+  protected static $password = "proyecto212";
   protected static $dbname = "diegoqui_convenio212";
   static $con;
 
