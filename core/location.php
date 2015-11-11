@@ -37,7 +37,7 @@ class location extends dbconfig {
       }
       $res = array();
         while($resultSet = mysqli_fetch_assoc($result)) {
-        $res[] = $resultSet['Sede'].','. $resultSet["idInstitucionesEducativas"];
+        $res[] = $resultSet['idInstitucionesEducativas'].'|'. $resultSet["Sede"];
       }
       $data = array('status'=>'success', 'tp'=>1, 'msg'=>"Sedes", 'result'=>$res);
     } catch (Exception $e) {

@@ -25,7 +25,6 @@ var markersData = [{
     des: "proyectos de "
 }];
 
-
 function initMap(z, cp) {
     z = typeof z !== 'undefined' ? z : 15;
     cp = typeof cp !== 'undefined' ? cp : 0;
@@ -198,6 +197,9 @@ function ajax() {
 var munLoc = [];
 
 function locationMap() {
+//final redes pryectos
+//insti, redes tem,
+//red sec 1 2 3
 
     var call = new ajax();
     var decPos = new parseLoc();
@@ -209,8 +211,7 @@ function locationMap() {
     this.getInstituciones = function(id) {
 
         $("#lista_instituciones option:gt(0)").remove();
-        url = rootUrl + '?type=getInstituciones&municipio=' + id;
-
+        var url = rootUrl + '?type=getInstituciones&municipio=' + id;
         $('#lista_instituciones').find("option:eq(0)").html("Cargando...");
         $('#lista_instituciones').css({"color":"green"});
 
@@ -218,7 +219,7 @@ function locationMap() {
             $('#lista_instituciones').find("option:eq(0)").html("Toda la provincia");
             if (data.tp == 1) {
                 for (i = 0; i < data['result'].length; i++) {
-                    var option = "<option value='" + data['result'][i].split(",")[1] + "'>" + data['result'][i].split(",")[0] + "</option>";
+                    var option = "<option value='" + data['result'][i].split("|")[0] + "'>" + data['result'][i].split("|")[1] + "</option>";
                     $('#lista_instituciones').append(option);
                 }
                 $("#lista_instituciones").prop("disabled", false);
@@ -230,6 +231,7 @@ function locationMap() {
     };
 
     this.getRedes = function(lista) {
+
         $(lista + " option:gt(0)").remove();
         var url = rootUrl + '?type=getRedes';
         $(lista).find("option:eq(0)").html("Cargando...");
@@ -250,6 +252,7 @@ function locationMap() {
     };
 
     this.getMunicipios = function(id) {
+
         $("#lista_municipios option:gt(0)").remove();
         var url = rootUrl + '?type=getMunicipios&proId=' + id;
         $('#lista_municipios').find("option:eq(0)").html("Cargando...");
@@ -302,7 +305,7 @@ function locationMap() {
             if (data.tp == 1) {
                 locat = data['result'];
                 latLonObj = decPos.getLatLon(String(locat));
-                console.info(latLonObj);
+                //console.info(latLonObj);
                 //------------initMap(latLonObj);
                 fillMap(latLonObj);
             } else {
@@ -312,10 +315,12 @@ function locationMap() {
     };
 
     this.getProvincias = function() {
+
         $("#lista_provincias option:gt(0)").remove();
         var url = rootUrl + '?type=getProvincias';
         $('#lista_provincias').find("option:eq(0)").html("Cargando...");
         $('#lista_provincias').css({"color":"green"});
+
         call.send(data, url, method, function(data) {
             $('#lista_provincias').find("option:eq(0)").html("Todo Cundinamarca");
             if (data.tp == 1) {
@@ -426,6 +431,7 @@ function fillInstituciones(data) {
     var arrInstituciones = data;
     //console.warn(arrInstituciones.length);
     for (var i = arrInstituciones.length - 1; i >= 0; i--) {
+        //console.warn("fillInstituciones: " + i);
         //console.info(arrInstituciones[i]);
         loc.getInstituciones(arrInstituciones[i]);
     };
@@ -476,15 +482,15 @@ $(function() {
             //-----------$("#filter").prop("disabled", true);
         } else {
             //-----------$("#filter").prop("disabled", false);
-            idMunicipio = $("#lista_municipios").val();
+            valMunicipio = $("#lista_municipios").val();
             var arrInstitucion = new Array();
-            arrInstitucion.push(idMunicipio);
+            arrInstitucion.push(valMunicipio);
             fillInstituciones(arrInstitucion);
         }
     });
 
     $("#filter").on("click", function() {
-        console.info("asdasd");
+        //console.info("filtrar");
         if ($(window).width() <= 600) {
             $(".menu").trigger("click");
         }
@@ -492,9 +498,9 @@ $(function() {
         if ($("#lista_municipios").selectedIndex == 0) {
 
         } else {
-            idMunicipio = $("#lista_municipios").val();
-            console.warn(idMunicipio);
-            loc.getMunicipioLoc(idMunicipio);
+            valMunicipio = $("#lista_municipios").val();
+            console.warn(valMunicipio);
+            loc.getMunicipioLoc(valMunicipio);
         };
 
     });
